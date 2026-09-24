@@ -111,7 +111,8 @@ Its authoritative starting point is:
 * [`docs/vision/proto-runtime-vision.md`](docs/vision/proto-runtime-vision.md) — non-normative motivation and direction;
 * [`docs/repository-governance/`](docs/repository-governance/) — repository procedure and engineering governance.
 
-ADR-001 has been accepted. No invariant identifiers have been admitted yet.
+ADR-001 and ADR-002 have been accepted. No invariant identifiers have been
+admitted yet.
 
 Implementation architecture must not be silently selected before explicit
 derivation from accepted Product Intent.
