@@ -29,6 +29,14 @@ rather than to always establish an authoritative domain outcome for the
 requested effect. Unknown or unresolved outcome is itself valid execution truth
 when that is all that can be authoritatively established.
 
+ADR-002 establishes that a workflow call carries caller-supplied, workflow-owned
+invocation input to the child workflow. `proto-runtime` preserves the
+association between the call, the child `WorkflowExecution`, and the parent's
+immediate caller continuation, makes the input available to the child, and
+returns the child result to that continuation, without interpreting the
+business meaning of either the input or the result. The exact representation of
+invocation input and child results remains undecided.
+
 ## 0.1 Product definition
 
 `proto-runtime` is a reusable execution substrate for externally defined
@@ -454,26 +462,66 @@ A workflow may invoke another workflow as a child execution.
 This capability is required because workflows such as `proto-go` may need to
 call workflows such as `proto-ruu`.
 
+A workflow call carries caller-supplied, workflow-owned invocation input.
+
+The calling workflow decides which child workflow to invoke and supplies the
+workflow-owned invocation input the child requires, subject to the caller's own
+authorization.
+
+The ownership layers are:
+
+```text
+CALLER WORKFLOW
+→ selects/requests child invocation
+→ supplies workflow-owned invocation input
+
+proto-runtime
+→ preserves call identity
+→ creates/continues child execution
+→ carries invocation input without interpreting it
+→ preserves parent continuation
+→ returns child result
+
+CHILD WORKFLOW
+→ interprets invocation input
+→ owns child semantic progression
+→ produces child result
+```
+
 Conceptually:
 
 ```text
 WorkflowExecution E1
         │
         │ workflow call
+        │ + caller-supplied invocation input I
         ▼
 WorkflowExecution E2
         │
-        │ child progression
+        │ child interprets I
+        │ according to child semantics
         ▼
-     outcome
+     outcome R
         │
         ▼
-return to E1's preserved continuation
+return R to E1's preserved continuation
 ```
 
 The child workflow remains a distinct `WorkflowExecution`.
 
 The parent must retain a return-bearing continuation while the child executes.
+
+`proto-runtime` creates and executes the child `WorkflowExecution`, preserves
+the association between the call, the child execution, and the parent
+continuation, makes the supplied invocation input available to the child, and
+returns the child result to the exact immediate caller continuation.
+
+`proto-runtime` MUST NOT need to interpret the business meaning of the
+invocation input or of the child result. It may preserve, transport, correlate,
+identify, or otherwise make the input and the result available.
+
+The child workflow interprets the supplied input according to its own
+semantics, owns its own progression, and produces its own result.
 
 Normal child completion must return its outcome to the exact immediate caller
 continuation rather than requiring the caller to reconstruct manually what
@@ -492,6 +540,38 @@ as a child workflow invoked by another workflow
 ```
 
 without acquiring domain-specific runtime behavior.
+
+The minimum generic structure is conceptually:
+
+```text
+workflow call
+=
+child workflow identity/definition
++
+caller-supplied invocation input
++
+child WorkflowExecution
++
+preserved immediate caller continuation
++
+child result returned to that continuation
+```
+
+This is semantic structure only. It does not define a concrete call object,
+request schema, protocol, or data model.
+
+This requirement is workflow-agnostic. It applies regardless of whether the
+child workflow is `proto-ruu`, another proto workflow, or a future workflow.
+No runtime special case is introduced for any particular child workflow.
+
+The invocation input is workflow-owned data. It is carried without the runtime
+interpreting its business meaning. It may contain whatever domain information
+and authority the child workflow requires, subject to the caller's own
+authorization. The exact relationship between the supplied invocation input
+and child workflow state is not selected here.
+
+`proto-runtime` MUST NOT be required to validate the business authority or
+domain validity of caller-supplied invocation input.
 
 This requirement establishes only the minimum structured call/return semantics
 required by current consumers.
@@ -548,6 +628,15 @@ outcome currently unknown
 without knowing that O7 concerns a Git push.
 
 The concrete storage or representation boundary is not selected here.
+
+Caller-supplied child invocation input is workflow-owned data. It is neither
+runtime execution state nor, by itself, child workflow state. It may contribute
+to the child's workflow state, but the exact relationship between supplied
+invocation input and child workflow state is not selected here.
+
+Likewise, the concrete representation, storage, copying, referencing,
+snapshotting, and serialization of invocation input and child results are not
+selected.
 
 ## 0.16 Completion
 
@@ -763,6 +852,18 @@ The concrete stability mechanism is not selected.
 The continuation belonging to the invoking workflow execution that must receive
 a child execution's outcome.
 
+## Child invocation input
+
+Workflow-owned data supplied by a calling workflow when it invokes a child
+workflow. The child workflow interprets the input according to its own
+semantics.
+
+`proto-runtime` carries the input and makes it available to the child without
+interpreting its business meaning.
+
+The representation, storage, transport, and relationship of the input to child
+workflow state are not selected.
+
 ## Eligible main-agent session
 
 A main-agent session or context that is permitted to continue or re-enter a
@@ -796,6 +897,7 @@ layout, or adjacent product behavior:
 * workflow API;
 * workflow state serialization;
 * runtime state serialization;
+* child invocation input or child result representation;
 * mechanical executor implementation;
 * main-agent harness integration mechanism;
 * command protocol;
@@ -842,9 +944,10 @@ The list records the questions visible at this phase and is not exhaustive:
   from known non-execution and known success?
 * What must remain determinate about a stable governing workflow definition
   given that the concrete stability mechanism is not selected?
-* What must a workflow call and its structured return carry so that a child
-  execution's outcome reaches the exact immediate caller continuation after
-  arbitrary control boundaries?
+* How must caller-supplied child invocation input, the child execution, and the
+  child result be represented, identified, persisted, transported, recovered,
+  and correlated across arbitrary control boundaries, given that the child
+  result must reach the exact immediate caller continuation?
 * What makes a main-agent session or context eligible to continue or re-enter a
   `WorkflowExecution`?
 * How is control ownership enforced without selecting a locking, leasing, or
@@ -855,6 +958,15 @@ The list records the questions visible at this phase and is not exhaustive:
 The question of what a mechanical occurrence must return when its external
 outcome cannot be authoritatively established was resolved by ADR-001 and is no
 longer unresolved.
+
+The workflow-invocation minimum was resolved by ADR-002 and is no longer
+unresolved: a call carries caller-supplied, workflow-owned invocation input to
+a distinct child `WorkflowExecution`; the runtime preserves the association
+between the call, the child execution, and the immediate caller continuation
+without interpreting the business meaning of the input or result; and child
+completion returns its result to that continuation. The representation,
+identity, persistence, transport, recovery, and correlation of that input,
+child execution, and result remain unresolved.
 
 These questions remain unresolved. Missing product authority is a discovery,
 not implementation permission.
