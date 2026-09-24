@@ -23,6 +23,12 @@ No invariant identifiers are admitted yet. No derived invariant set exists yet.
 Deriving invariants from this Product Intent is separate, later work; see
 Section 5.
 
+ADR-001 clarifies that the mechanical-execution return obligation is to return
+or preserve the authoritative execution truth available for an occurrence,
+rather than to always establish an authoritative domain outcome for the
+requested effect. Unknown or unresolved outcome is itself valid execution truth
+when that is all that can be authoritatively established.
+
 ## 0.1 Product definition
 
 `proto-runtime` is a reusable execution substrate for externally defined
@@ -246,7 +252,26 @@ to executable semantics and runtime inputs/results without requiring
 discretionary main-agent judgment to invent missing workflow progression.
 
 `proto-runtime` must be able to execute or cause execution of such work and
-return an authoritative outcome to the governing workflow.
+must return or preserve the authoritative execution truth available for the
+occurrence to the governing workflow.
+
+The obligation is truthfulness about execution, not the guaranteed
+establishment of an authoritative domain outcome for the requested effect.
+
+When the actual outcome cannot be authoritatively established, the available
+execution truth may itself be unknown or unresolved. That condition must
+remain distinguishable from known success and known non-execution, and it must
+not be silently converted into either.
+
+The governing distinction remains:
+
+```text
+proto-runtime
+→ owns truthful generic execution truth
+
+workflow
+→ owns semantic interpretation and response
+```
 
 This Product Intent does NOT require:
 
@@ -690,6 +715,9 @@ An execution occurrence is not equivalent to the logical `WorkflowExecution`.
 
 What is authoritatively known about an execution occurrence's realization.
 
+Unknown or unresolved outcome is itself valid execution truth when that is all
+that can be authoritatively established.
+
 The product requires unknown or interrupted execution truth to remain
 distinguishable from known non-execution and known success. Exact status values
 are not selected.
@@ -812,9 +840,6 @@ The list records the questions visible at this phase and is not exhaustive:
 * What must be preserved as execution truth for an occurrence to count as
   authoritatively known, and how is unknown or interrupted truth distinguished
   from known non-execution and known success?
-* What does an authoritative outcome returned by a mechanical occurrence mean
-  when the occurrence interacts with nondeterministic external systems whose
-  state `proto-runtime` cannot fully observe?
 * What must remain determinate about a stable governing workflow definition
   given that the concrete stability mechanism is not selected?
 * What must a workflow call and its structured return carry so that a child
@@ -826,6 +851,10 @@ The list records the questions visible at this phase and is not exhaustive:
   fencing mechanism?
 * What representation boundary separates runtime execution state from
   workflow-owned state?
+
+The question of what a mechanical occurrence must return when its external
+outcome cannot be authoritatively established was resolved by ADR-001 and is no
+longer unresolved.
 
 These questions remain unresolved. Missing product authority is a discovery,
 not implementation permission.
