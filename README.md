@@ -3,6 +3,9 @@
 `proto-runtime` is a reusable execution substrate for externally defined
 workflows.
 
+It is an execution-continuity substrate, not a generic topology execution
+system: generic progression structure remains workflow-owned.
+
 It exists so that an externally defined workflow can own its own semantic
 progression while relying on a reusable execution substrate to preserve and
 realize that progression across execution boundaries.
@@ -111,8 +114,9 @@ Its authoritative starting point is:
 * [`docs/vision/proto-runtime-vision.md`](docs/vision/proto-runtime-vision.md) — non-normative motivation and direction;
 * [`docs/repository-governance/`](docs/repository-governance/) — repository procedure and engineering governance.
 
-ADR-001 and ADR-002 have been accepted. No invariant identifiers have been
-admitted yet.
+Accepted decision history is recorded in
+[`docs/adr/index.md`](docs/adr/index.md). The general invariant set has not
+been derived yet.
 
 Implementation architecture must not be silently selected before explicit
 derivation from accepted Product Intent.
