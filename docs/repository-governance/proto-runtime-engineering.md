@@ -45,9 +45,9 @@ No complete product model exists yet.
 
 No canonical terminology has been derived yet.
 
-No invariant set exists yet.
+No complete invariant set exists yet.
 
-No invariant identifiers are admitted.
+One boundary invariant identity is explicitly admitted.
 
 No implementation architecture has been accepted yet.
 
@@ -176,5 +176,5 @@ permission-enforcer
 Do not copy their architecture into `proto-runtime` unless a later accepted
 `proto-runtime` derivation independently requires it.
 
-TURNLOCK capability presence is not justification for adding a capability to
-`proto-runtime`.
+`proto-runtime` admits only capabilities forced by accepted current product
+requirements. Generic workflow topology remains workflow-owned.
