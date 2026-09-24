@@ -19,9 +19,9 @@
 This section is normative for the current product direction. It states the
 product outcome that later derivation exists to serve.
 
-No invariant identifiers are admitted yet. No derived invariant set exists yet.
-Deriving invariants from this Product Intent is separate, later work; see
-Section 5.
+One boundary invariant identity is admitted (Section 0.19). No derived
+invariant set exists yet. Deriving the general invariant set from this Product
+Intent is separate, later work; see Section 5.
 
 ADR-001 clarifies that the mechanical-execution return obligation is to return
 or preserve the authoritative execution truth available for an occurrence,
@@ -124,6 +124,13 @@ publication blocked → authored correction
 ```
 
 unless those decisions have been made by the governing workflow.
+
+The workflow may realize branching, iteration, retry, conditional progression,
+obligation processing, and state-machine transitions through successive
+workflow-owned decisions across runtime execution boundaries. `proto-runtime`
+realizes the requested executions and does not need first-class knowledge of
+the resulting progression structure. Section 0.17 states the resulting
+capability-admission boundary.
 
 The runtime may preserve, transport, identify, or return workflow-owned state
 without understanding its meaning.
@@ -333,8 +340,8 @@ available harness, including actions such as:
 * reacting to new evidence;
 * user interaction when necessary.
 
-`proto-runtime` does not currently require the strong TURNLOCK guarantee that
-every main-agent continuation preserve one exact originating cognitive lineage.
+`proto-runtime` does not currently require that every main-agent continuation
+preserve one exact originating cognitive lineage.
 
 Correct workflow execution MUST NOT depend on the originating conversational
 session surviving.
@@ -653,38 +660,168 @@ the workflow's result to its immediate caller where one exists.
 * a mechanical occurrence ended;
 * no current process is running.
 
-## 0.17 Product minimality
+## 0.17 Product minimality and capability admission
 
-`proto-runtime` is deliberately smaller than TURNLOCK.
+`proto-runtime` is an execution-continuity substrate, not a generic topology
+execution system.
 
-Its Product Intent is derived only from current proto-generation needs.
+The governing workflow retains progression authority. `proto-runtime` realizes
+individual workflow-declared execution requests and returns their execution
+truth or result so that the workflow can decide again.
 
-The presence of a capability in TURNLOCK is NOT sufficient justification for
-adding that capability to `proto-runtime`.
-
-Do NOT add, merely by analogy with TURNLOCK:
+The fundamental progression shape is:
 
 ```text
-raw LLM execution
-independent-agent execution
-fan-out / fan-in
-parallel workflow topology
-generic branching primitives
-generic iteration primitives
-workflow DAG interpretation
-scheduler semantics
-fairness guarantees
-recursive workflows
-cyclic workflow calls
-workflow optimization
-execution evaluation
-provenance systems beyond current need
-general-purpose workflow DSL
+workflow evaluates its authoritative state
+        ↓
+workflow decides the currently legal next progression
+        ↓
+workflow requests one execution
+        ↓
+proto-runtime realizes that execution
+        ↓
+execution truth / result becomes available
+        ↓
+workflow interprets it
+        ↓
+workflow decides again
+        ↺
 ```
 
-A workflow may implement branching, iteration, retry policy, obligation
-processing, or domain state transitions inside its own progression logic
-without `proto-runtime` understanding those structures.
+The property that matters is that generic progression structure remains owned
+by the workflow.
+
+A workflow may produce behavior equivalent to sequencing, branching,
+iteration, retry, conditional progression, obligation processing, or
+state-machine transitions through repeated workflow-owned decisions across
+runtime execution boundaries.
+
+`proto-runtime` does not need first-class knowledge that successive decisions
+collectively form a branch, loop, retry policy, state machine, obligation
+graph, or other orchestration topology.
+
+For example:
+
+```text
+workflow receives result
+        ↓
+workflow decides execution B is now legal
+        ↓
+proto-runtime executes B
+        ↓
+workflow evaluates again
+```
+
+or:
+
+```text
+workflow receives UNKNOWN execution truth
+        ↓
+workflow decides authoritative inspection is required
+        ↓
+proto-runtime executes inspection
+        ↓
+workflow evaluates inspection result
+        ↓
+workflow decides whether another execution occurrence is legal
+```
+
+The runtime realizes the requested executions. The workflow owns the
+progression structure that caused those requests to occur.
+
+### Boundary
+
+`proto-runtime` MUST NOT acquire first-class generic workflow-topology
+semantics when the required behavior can be expressed by the governing
+workflow retaining progression authority and making successive execution
+requests across runtime boundaries.
+
+Capabilities such as the following are not justified merely because they are
+generally useful workflow concepts:
+
+```text
+generic branching primitive
+generic iteration primitive
+generic retry primitive
+generic obligation engine
+generic state-machine interpreter
+generic DAG execution
+generic fan-out/fan-in
+generic join
+generic workflow scheduler
+generic topology interpreter
+```
+
+### Capability admission
+
+Every first-class `proto-runtime` capability MUST be justified by an accepted
+current Product Intent requirement that cannot be satisfied correctly by the
+already admitted runtime capabilities while keeping progression semantics in
+the workflow.
+
+For every proposed capability, the governing test is conceptually:
+
+```text
+1. Which accepted current requirement forces this capability?
+
+2. Can the requirement already be satisfied by:
+   workflow decision
+   → existing runtime execution
+   → returned execution truth/result
+   → next workflow decision?
+
+3. If yes:
+   the new first-class runtime capability is not justified.
+
+4. If no:
+   identify precisely what execution property is missing
+   before admitting any new capability.
+```
+
+Convenience, elegance, expected future usefulness, and general workflow-engine
+completeness are not sufficient reasons.
+
+### Deliberate incompleteness
+
+`proto-runtime` is deliberately allowed to remain incomplete as a general
+workflow system.
+
+Its Product Intent does not require it to support every useful orchestration
+structure. The runtime is complete relative to its accepted product
+requirements, not relative to an abstract catalogue of workflow-engine
+capabilities.
+
+Therefore:
+
+```text
+absence of a generic capability
+!=
+product deficiency
+```
+
+when current accepted workflows can satisfy their requirements correctly
+without that capability.
+
+This is an important product property.
+
+### Workflow-owned progression responsibilities
+
+Absent a future explicit product decision, the following remain workflow
+responsibilities:
+
+```text
+which execution comes next
+whether a condition causes one path or another
+whether another iteration is required
+whether an uncertain effect should be inspected or retried
+whether an obligation remains outstanding
+whether a result satisfies a business condition
+whether progression should block
+whether semantic completion has been reached
+```
+
+The runtime may preserve generic execution facts needed to realize and resume
+those decisions. It does not take ownership of the decisions themselves.
 
 The initial runtime should contain only capabilities that are forced by actual
 current workflow requirements.
@@ -706,6 +843,10 @@ A design is also suspect if every workflow must independently reimplement
 session-independent continuation, execution occurrence identity, control
 handoff, child-workflow return, or recovery of generic execution truth.
 
+The test is not satisfied merely because a proposed capability would be
+generally useful, elegant, or expected to be useful later; see the
+capability-admission rule in Section 0.17.
+
 The desired boundary is:
 
 ```text
@@ -718,6 +859,37 @@ proto-runtime
 execution environment
     realizes bounded requested work
 ```
+
+## 0.19 Admitted boundary invariant
+
+One invariant identity is explicitly admitted before the general invariant
+derivation:
+
+### PROTO-RUNTIME-INV-001 — Generic workflow topology remains workflow-owned
+
+Generic workflow topology MUST remain workflow-owned.
+
+`proto-runtime` MUST NOT acquire first-class semantics for generic workflow
+topology when the required progression can be correctly expressed by the
+governing workflow retaining progression authority and making successive
+execution requests across existing runtime execution boundaries.
+
+A new first-class runtime capability MUST be forced by an accepted current
+Product Intent requirement that cannot be satisfied correctly through the
+existing admitted runtime capabilities while preserving workflow-owned
+progression authority.
+
+The principle applies, without being limited to, branching, iteration, retry
+policy, conditional progression, obligation processing, join or fan-in
+topology, scheduling topology, and generic topology interpretation. It is not
+a finite feature blacklist.
+
+This invariant does not remove any capability already justified by accepted
+current requirements. It constrains the admission of further first-class
+generic orchestration semantics.
+
+This is the only admitted invariant identity. Deriving the general invariant
+set remains separate, later work.
 
 # 1. Purpose
 
@@ -912,9 +1084,9 @@ layout, or adjacent product behavior:
 * slash-command mapping;
 * formal model.
 
-This Product Intent also does not admit an invariant identifier space, an
-authoring language, a workflow registry, a storage model, or an execution
-status vocabulary.
+This Product Intent does not admit a general invariant identifier space beyond
+the single admitted boundary invariant, an authoring language, a workflow
+registry, a storage model, or an execution status vocabulary.
 
 No implementation is authorized by this Product Intent.
 
@@ -926,7 +1098,8 @@ The following are not yet derived:
 
 * the complete product model beyond Sections 0 and 2;
 * the canonical terminology beyond the working vocabulary in Section 3;
-* the invariant set and any invariant identifiers;
+* the complete invariant set beyond the single admitted boundary invariant;
+* further invariant identities;
 * the formal model and formal-assurance responsibilities;
 * any implementation architecture;
 * any implementation.
@@ -967,6 +1140,10 @@ without interpreting the business meaning of the input or result; and child
 completion returns its result to that continuation. The representation,
 identity, persistence, transport, recovery, and correlation of that input,
 child execution, and result remain unresolved.
+
+One boundary invariant identity (`PROTO-RUNTIME-INV-001`) has been explicitly
+admitted by the Product Owner in Section 0.19. The general invariant set
+remains underived.
 
 These questions remain unresolved. Missing product authority is a discovery,
 not implementation permission.
