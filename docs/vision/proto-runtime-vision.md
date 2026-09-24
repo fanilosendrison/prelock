@@ -36,10 +36,10 @@ A workflow using `proto-runtime` may alternate between mechanical execution and
 main-agent continuation, and may invoke another workflow as a child execution
 whose outcome returns to the immediate caller continuation.
 
-`proto-runtime` is deliberately smaller than TURNLOCK. TURNLOCK capability
-presence is not justification for adding a capability to `proto-runtime`.
-`proto-runtime` admits only capabilities forced by actual current
-proto-generation workflow requirements.
+`proto-runtime` admits only capabilities forced by accepted current product
+requirements. Generic workflow topology remains workflow-owned: the runtime
+realizes workflow-declared executions and returns their truth or result, and
+the workflow decides again.
 
 The initial repository deliberately remains specification-first.
 
