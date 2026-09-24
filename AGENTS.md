@@ -75,6 +75,12 @@ workflow-owned data. Do not let runtime semantics depend on, interpret,
 validate, or transform their business meaning; the runtime carries them
 between caller and child workflows without interpreting them.
 
+Do not add first-class runtime semantics for generic workflow topology
+(branching, iteration, retry, obligations, state machines, DAGs, joins,
+scheduling) unless an accepted current Product Intent requirement cannot be
+satisfied correctly through successive workflow-owned decisions across
+existing runtime execution boundaries.
+
 The first expected consumers are `proto-go` and `proto-ruu`. Neither product
 defines `proto-runtime` semantics.
 
@@ -147,11 +153,12 @@ Do not skip from Product Intent directly to speculative implementation.
 
 ## Invariant discipline
 
-No invariant identifiers are admitted yet.
+One boundary invariant identity is explicitly admitted:
+`PROTO-RUNTIME-INV-001 — Generic workflow topology remains workflow-owned`.
 
-Do not create invariant identifiers, an invariant set, or invariant-shaped
-requirements unless a later explicit derivation task backed by accepted
-authority establishes them.
+Do not create further invariant identifiers, an invariant set, or
+invariant-shaped requirements unless a later explicit derivation task backed by
+accepted authority establishes them.
 
 ## Authority by responsibility
 
