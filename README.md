@@ -76,7 +76,8 @@ At the product level, that currently includes:
 * a stable governing workflow definition for accepted executions;
 * bounded execution occurrences whose execution truth remains known or
   explicitly unknown;
-* mechanical execution of workflow-requested work;
+* mechanical execution of workflow-requested work, returning the authoritative
+  execution truth available for the occurrence;
 * main-agent continuation when interactive agency is required;
 * reversible and repeatable control transfer between those contexts;
 * session-independent re-entry into an active execution;
@@ -101,11 +102,11 @@ protocol, or formal model is established merely by this repository layout.
 Its authoritative starting point is:
 
 * [`docs/specification/proto-runtime-spec.md`](docs/specification/proto-runtime-spec.md) — normative Product Intent;
-* [`docs/adr/`](docs/adr/) — accepted decision history once product decisions are recorded;
+* [`docs/adr/`](docs/adr/) — accepted decision history and later amendments;
 * [`docs/vision/proto-runtime-vision.md`](docs/vision/proto-runtime-vision.md) — non-normative motivation and direction;
 * [`docs/repository-governance/`](docs/repository-governance/) — repository procedure and engineering governance.
 
-No ADR has been accepted yet. No invariant identifiers have been admitted yet.
+ADR-001 has been accepted. No invariant identifiers have been admitted yet.
 
 Implementation architecture must not be silently selected before explicit
 derivation from accepted Product Intent.
