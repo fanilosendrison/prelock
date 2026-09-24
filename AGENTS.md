@@ -70,6 +70,11 @@ if workflow == proto-ruu
 If `proto-runtime` must understand the business meaning of a workflow's state
 to execute it, the product boundary has been violated.
 
+Caller-supplied child invocation input and child workflow results are
+workflow-owned data. Do not let runtime semantics depend on, interpret,
+validate, or transform their business meaning; the runtime carries them
+between caller and child workflows without interpreting them.
+
 The first expected consumers are `proto-go` and `proto-ruu`. Neither product
 defines `proto-runtime` semantics.
 

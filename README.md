@@ -64,6 +64,10 @@ Neither `proto-go` nor `proto-ruu` defines `proto-runtime` semantics. Adding a
 new workflow must not require `proto-runtime` to be modified merely because that
 workflow introduces new domain semantics.
 
+This applies to workflow invocation input and child results: they are
+workflow-owned data, and the runtime carries them without interpreting their
+business meaning.
+
 ## What the runtime provides
 
 The Product Intent requires `proto-runtime` to provide reusable execution
@@ -84,7 +88,8 @@ At the product level, that currently includes:
 * control ownership preventing contradictory independent progression of one
   continuation;
 * independent progress of distinct workflow executions;
-* workflow invocation with structured return to the immediate caller
+* workflow invocation that carries caller-supplied workflow-owned invocation
+  input without interpreting it, with structured return to the immediate caller
   continuation;
 * workflow-declared completion preserved as a terminal execution fact.
 
