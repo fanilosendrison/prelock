@@ -164,7 +164,6 @@ The following projects may be consulted later as implementation context but are
 not semantic authority for `proto-runtime`:
 
 ```text
-TURNLOCK
 proto-go
 proto-ruu
 Ruu

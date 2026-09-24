@@ -16,7 +16,7 @@ specification-first.
 
 Do not infer implementation architecture, programming language, process
 topology, persistence model, workflow syntax, or runtime mechanism from the
-repository name, from `proto-go`, from `proto-ruu`, or from TURNLOCK.
+repository name, from `proto-go`, or from `proto-ruu`.
 
 ## Product boundary
 
