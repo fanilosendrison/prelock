@@ -31,7 +31,7 @@ reading B
 
 The Product Intent did not explicitly select between them.
 
-Under `docs/repository-governance/proto-runtime-discovery-classification.md`,
+Under `docs/repository-governance/prelock-discovery-classification.md`,
 this was a `decision-required` condition.
 
 The product owner has resolved it in favor of reading B.

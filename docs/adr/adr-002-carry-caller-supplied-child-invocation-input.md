@@ -26,7 +26,7 @@ applicable Git authority
 `proto-ruu` explicitly relies on its caller to provide the work boundary and
 authority it is allowed to operate on.
 
-Under `docs/repository-governance/proto-runtime-discovery-classification.md`,
+Under `docs/repository-governance/prelock-discovery-classification.md`,
 this was a `decision-required` condition: the Product Intent admitted multiple
 materially different readings about whether workflow calls carry
 caller-supplied invocation input, and no accepted authority selected one.

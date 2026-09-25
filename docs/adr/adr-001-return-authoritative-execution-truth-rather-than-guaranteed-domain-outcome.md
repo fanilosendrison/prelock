@@ -36,7 +36,7 @@ before the result was established.
 
 The bootstrap Product Intent did not explicitly select between those readings.
 
-Under `docs/repository-governance/proto-runtime-discovery-classification.md`,
+Under `docs/repository-governance/prelock-discovery-classification.md`,
 this was a `decision-required` condition: the Product Intent admitted multiple
 materially different product semantics for one normative obligation, and no
 accepted authority selected one.

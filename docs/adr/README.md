@@ -1,12 +1,12 @@
-# proto-runtime Architecture Decision Records
+# Prelock Architecture Decision Records
 
 This directory records explicit accepted decisions that establish, clarify, or
-amend `proto-runtime` product semantics or architecture.
+amend Prelock product semantics or architecture.
 
 The normative Product Intent currently lives in:
 
 ```text
-../specification/proto-runtime-spec.md
+../specification/prelock-spec.md
 ```
 
 Numbered ADRs are listed in [`index.md`](index.md).

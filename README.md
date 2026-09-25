@@ -1,6 +1,6 @@
-# proto-runtime
+# Prelock
 
-`proto-runtime` is a reusable execution substrate for externally defined
+Prelock is a reusable execution substrate for externally defined
 workflows.
 
 It is an execution-continuity substrate, not a generic topology execution
@@ -18,20 +18,20 @@ workflow
 + business authority
 + progression decisions
 
-proto-runtime
+Prelock
 = execution continuity
 + control transfer
 + execution occurrence tracking
 + workflow-call return structure
 ```
 
-The workflow decides what should happen. `proto-runtime` makes the declared
+The workflow decides what should happen. Prelock makes the declared
 execution happen and preserves enough execution truth for the workflow to
 continue correctly afterward.
 
 The governing statement is:
 
-> **The workflow decides; proto-runtime preserves and realizes that decision
+> **The workflow decides; Prelock preserves and realizes that decision
 > across execution boundaries.**
 
 ## Product boundary
@@ -40,14 +40,14 @@ The governing statement is:
 workflow
     owns meaning and decisions
 
-proto-runtime
+Prelock
     owns reusable execution continuity
 
 execution environment
     realizes bounded requested work
 ```
 
-`proto-runtime` is workflow-agnostic. It MUST NOT know product concepts such as
+Prelock is workflow-agnostic. It MUST NOT know product concepts such as
 `ManagedContribution`, `READY FOR HANDOFF`, validation obligations, Repository
 Publication Obligations, `PUBLISHED`, `WorkBoundary`, Git commits, Git branches,
 Git publication, or worktrees. Those concepts belong to workflows using the
@@ -58,13 +58,13 @@ The first concrete consumers are expected to include:
 ```text
 proto-go ────┐
              │
-proto-ruu ───┼──→ proto-runtime
+proto-ruu ───┼──→ Prelock
              │
 workflow X ──┘
 ```
 
-Neither `proto-go` nor `proto-ruu` defines `proto-runtime` semantics. Adding a
-new workflow must not require `proto-runtime` to be modified merely because that
+Neither `proto-go` nor `proto-ruu` defines Prelock semantics. Adding a
+new workflow must not require Prelock to be modified merely because that
 workflow introduces new domain semantics.
 
 This applies to workflow invocation input and child results: they are
@@ -73,7 +73,7 @@ business meaning.
 
 ## What the runtime provides
 
-The Product Intent requires `proto-runtime` to provide reusable execution
+The Product Intent requires Prelock to provide reusable execution
 continuity independently of conversational memory and transient processes.
 
 At the product level, that currently includes:
@@ -97,7 +97,7 @@ At the product level, that currently includes:
 * workflow-declared completion preserved as a terminal execution fact.
 
 This list summarizes the Product Intent. The normative text remains
-[`docs/specification/proto-runtime-spec.md`](docs/specification/proto-runtime-spec.md).
+[`docs/specification/prelock-spec.md`](docs/specification/prelock-spec.md).
 
 ## Repository status
 
@@ -109,9 +109,9 @@ protocol, or formal model is established merely by this repository layout.
 
 Its authoritative starting point is:
 
-* [`docs/specification/proto-runtime-spec.md`](docs/specification/proto-runtime-spec.md) — normative Product Intent;
+* [`docs/specification/prelock-spec.md`](docs/specification/prelock-spec.md) — normative Product Intent;
 * [`docs/adr/`](docs/adr/) — accepted decision history and later amendments;
-* [`docs/vision/proto-runtime-vision.md`](docs/vision/proto-runtime-vision.md) — non-normative motivation and direction;
+* [`docs/vision/prelock-vision.md`](docs/vision/prelock-vision.md) — non-normative motivation and direction;
 * [`docs/repository-governance/`](docs/repository-governance/) — repository procedure and engineering governance.
 
 Accepted decision history is recorded in

@@ -2,14 +2,14 @@
 okf_version: "1.0"
 kind: "KnowledgeAsset"
 asset_type: "agent-directives"
-domain: "proto-runtime"
+domain: "prelock"
 severity: "strict"
-name: "proto-runtime repository agent directives"
+name: "Prelock repository agent directives"
 ---
 
-# proto-runtime repository directives
+# Prelock repository directives
 
-Use this file as the operational map for the `proto-runtime` repository.
+Use this file as the operational map for the `prelock` repository.
 
 The repository is currently in the product-definition phase and is
 specification-first.
@@ -20,10 +20,10 @@ repository name, from `proto-go`, or from `proto-ruu`.
 
 ## Product boundary
 
-`proto-runtime` is defined by the Product Intent in:
+Prelock is defined by the Product Intent in:
 
 ```text
-docs/specification/proto-runtime-spec.md
+docs/specification/prelock-spec.md
 ```
 
 The product boundary is:
@@ -32,14 +32,14 @@ The product boundary is:
 workflow
     owns meaning and decisions
 
-proto-runtime
+Prelock
     owns reusable execution continuity
 
 execution environment
     realizes bounded requested work
 ```
 
-`proto-runtime` is a reusable execution substrate for externally defined
+Prelock is a reusable execution substrate for externally defined
 workflows. It preserves and realizes workflow-owned progression across
 execution boundaries.
 
@@ -67,7 +67,7 @@ if workflow == proto-go
 if workflow == proto-ruu
 ```
 
-If `proto-runtime` must understand the business meaning of a workflow's state
+If Prelock must understand the business meaning of a workflow's state
 to execute it, the product boundary has been violated.
 
 Caller-supplied child invocation input and child workflow results are
@@ -82,7 +82,7 @@ satisfied correctly through successive workflow-owned decisions across
 existing runtime execution boundaries.
 
 The first expected consumers are `proto-go` and `proto-ruu`. Neither product
-defines `proto-runtime` semantics.
+defines Prelock semantics.
 
 ## Current phase and implementation prohibition
 
@@ -96,7 +96,7 @@ The only currently authorized substantive product artifact is the accepted
 Product Intent in:
 
 ```text
-docs/specification/proto-runtime-spec.md
+docs/specification/prelock-spec.md
 ```
 
 At the current repository state, do not create or select:
@@ -154,7 +154,7 @@ Do not skip from Product Intent directly to speculative implementation.
 ## Invariant discipline
 
 One boundary invariant identity is explicitly admitted:
-`PROTO-RUNTIME-INV-001 — Generic workflow topology remains workflow-owned`.
+`PRELOCK-INV-001 — Generic workflow topology remains workflow-owned`.
 
 Do not create further invariant identifiers, an invariant set, or
 invariant-shaped requirements unless a later explicit derivation task backed by
@@ -162,13 +162,13 @@ accepted authority establishes them.
 
 ## Authority by responsibility
 
-1. `docs/specification/proto-runtime-spec.md`
+1. `docs/specification/prelock-spec.md`
    defines current normative product meaning.
 
 2. Accepted ADRs under `docs/adr/`
    record explicit decision history and later amendments.
 
-3. `docs/vision/proto-runtime-vision.md`
+3. `docs/vision/prelock-vision.md`
    is non-normative.
 
 4. `docs/repository-governance/`
@@ -190,18 +190,18 @@ Before changing product semantics, deriving architecture, or preparing
 implementation work, read:
 
 1. `README.md`
-2. `docs/specification/proto-runtime-spec.md`
+2. `docs/specification/prelock-spec.md`
 3. `docs/adr/README.md`
 4. `docs/adr/index.md`
-5. `docs/repository-governance/proto-runtime-discovery-classification.md`
-6. `docs/repository-governance/proto-runtime-engineering.md`
+5. `docs/repository-governance/prelock-discovery-classification.md`
+6. `docs/repository-governance/prelock-engineering.md`
 
 ## Discovery handling
 
 Every material discovery that affects product meaning must follow:
 
 ```text
-docs/repository-governance/proto-runtime-discovery-classification.md
+docs/repository-governance/prelock-discovery-classification.md
 ```
 
 A missing semantic decision is not permission to improvise.
@@ -228,7 +228,7 @@ AGENTS.md
 README.md
 ```
 
-The repository directory name `proto-runtime` does not select a programming
+The repository directory name `prelock` does not select a programming
 language, runtime, or process model.
 
 ## Current target structure
@@ -236,7 +236,7 @@ language, runtime, or process model.
 The current authorized tree is:
 
 ```text
-proto-runtime/
+prelock/
 ├── .gitignore
 ├── AGENTS.md
 ├── README.md
@@ -245,12 +245,12 @@ proto-runtime/
     │   ├── README.md
     │   └── index.md
     ├── repository-governance/
-    │   ├── proto-runtime-discovery-classification.md
-    │   └── proto-runtime-engineering.md
+    │   ├── prelock-discovery-classification.md
+    │   └── prelock-engineering.md
     ├── specification/
-    │   └── proto-runtime-spec.md
+    │   └── prelock-spec.md
     └── vision/
-        └── proto-runtime-vision.md
+        └── prelock-vision.md
 ```
 
 Do not expand this structure merely because a likely future directory can be
